@@ -1,9 +1,38 @@
-import { FC } from "react";
+"use client"
+
+import { FC, useState, useEffect } from "react";
 import { Section } from "@/components/layout";
+import { ArrowDown } from "lucide-react";
+import styled from "styled-components";
 
 const UnlockTheMagicSection: FC = () => {
+
+
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = document.getElementById("unlock-magic-section");
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        setIsVisible(rect.top >= 0 && rect.bottom > window.innerHeight / 2);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToNextSection = () => {
+    const nextSection = document.getElementById("gallery-section");
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+
   return (
-    <Section style={{ backgroundColor: "transparent"}}>
+    <Section id="unlock-magic-section" style={{ backgroundColor: "transparent"}}>
       {/* Background Video */}
       <video
         autoPlay
@@ -48,8 +77,36 @@ const UnlockTheMagicSection: FC = () => {
         </p>
       </div>
 
+       {/* Scroll Button (Only Visible in First Section) */}
+       {isVisible && (
+        <ScrollButton onClick={scrollToNextSection}>
+          <ArrowDown size={28} />
+        </ScrollButton>
+      )}
+
     </Section>
   );
 };
 
 export default UnlockTheMagicSection;
+
+/* Styled Components */
+const ScrollButton = styled.button`
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.9);
+  }
+`;

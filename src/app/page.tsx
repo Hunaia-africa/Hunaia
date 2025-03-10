@@ -1,6 +1,8 @@
 import { JSX } from "react";
 import ComingSoonPage from "./coming_soon/page";
 import Maintenance from "./maintenance/page";
+import LandingPage from "./(unauthed)/home/page";
+import Navbar from "@/components/navigation/appBar";
 
 const Home: ({}) => Promise<JSX.Element> = async ({}) => {
   
@@ -8,7 +10,7 @@ const Home: ({}) => Promise<JSX.Element> = async ({}) => {
   // Ensure one is always true and other is false
   // When both are false, ensure home page is rendered
   const maintenance: boolean = false;
-  const comingSoon: boolean = true;
+  const comingSoon: boolean = false;
 
   return (
     <>
@@ -17,7 +19,10 @@ const Home: ({}) => Promise<JSX.Element> = async ({}) => {
       ) : maintenance && !comingSoon ? (
         <Maintenance />
       ) : (
-        <main></main>
+        <>
+        <Navbar />
+        <LandingPage />
+        </>
       )}
     </>
   );
