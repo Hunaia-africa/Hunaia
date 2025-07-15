@@ -21,16 +21,30 @@ const Navbar: React.FC = () => {
   return (
     <NavContainer $isScrolled={isScrolled}>
       <NavContent>
-        {/* Logo */}
-        <Logo href="/">Húnaia</Logo>
+        <NavLinksWrapper>
+          <LeftNavLinks>
+            <NavItem $isScrolled={isScrolled} href="/explore">
+              Explore
+            </NavItem>
+            <NavItem $isScrolled={isScrolled} href="/destinations">
+              Destinations
+            </NavItem>
+          </LeftNavLinks>
 
-        {/* Desktop Menu */}
-        <NavLinks>
-          <NavItem href="/explore">Explore</NavItem>
-          <NavItem href="/destinations">Destinations</NavItem>
-          <NavItem href="/about">About</NavItem>
-          <NavItem href="/contact">Contact</NavItem>
-        </NavLinks>
+          {/* Logo */}
+          <Logo $isScrolled={isScrolled} href="/">
+            Húnaia
+          </Logo>
+
+          <RightNavLinks>
+            <NavItem $isScrolled={isScrolled} href="/about">
+              About
+            </NavItem>
+            <NavItem $isScrolled={isScrolled} href="/contact">
+              Contact
+            </NavItem>
+          </RightNavLinks>
+        </NavLinksWrapper>
 
         {/* Mobile Menu Button */}
         <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -61,7 +75,8 @@ const NavContainer = styled.nav<{ $isScrolled: boolean }>`
   width: 100%;
   padding: 1rem 2rem;
   background: ${({ $isScrolled }) => ($isScrolled ? "#fff" : "transparent")};
-  box-shadow: ${({ $isScrolled }) => ($isScrolled ? "0 4px 6px rgba(0,0,0,0.1)" : "none")};
+  box-shadow: ${({ $isScrolled }) =>
+    $isScrolled ? "0 4px 6px rgba(0,0,0,0.1)" : "none"};
   transition: background 0.3s ease, box-shadow 0.3s ease;
   z-index: 1000;
 `;
@@ -74,31 +89,14 @@ const NavContent = styled.div`
   margin: 0 auto;
 `;
 
-const Logo = styled(Link)`
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: "#000";
-  text-decoration: none;
-`;
-
-const NavLinks = styled.div`
-  display: flex;
-  gap: 1.5rem;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const NavItem = styled(Link)`
-  color: #000;
+const NavItem = styled(Link)<{ $isScrolled: boolean }>`
+  color: ${({ $isScrolled }) => ($isScrolled ? "#000" : "#fff")};
   font-size: 1rem;
   text-decoration: none;
   transition: color 0.3s ease;
 
   &:hover {
-    color: "#ff5a5f";
+    color: #ff5a5f;
   }
 `;
 
@@ -140,5 +138,45 @@ const MobileNavItem = styled(Link)`
 
   &:hover {
     color: "#ff5a5f";
+  }
+`;
+
+const NavLinksWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const LeftNavLinks = styled.div`
+  display: flex;
+  gap: 1.5rem;
+  justify-content: flex-end;
+  flex: 1;
+`;
+
+const RightNavLinks = styled.div`
+  display: flex;
+  gap: 1.5rem;
+  justify-content: flex-start;
+  flex: 1;
+`;
+
+const Logo = styled(Link)<{ $isScrolled: boolean }>`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 5rem;
+  text-transform: uppercase;
+  color: ${({ $isScrolled }) => ($isScrolled ? "#000" : "#fff")};
+  text-decoration: none;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    flex: none;
   }
 `;
