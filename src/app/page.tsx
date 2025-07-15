@@ -10,7 +10,7 @@ const Home: ({}) => Promise<JSX.Element> = async ({}) => {
   // Ensure one is always true and other is false
   // When both are false, ensure home page is rendered
   const maintenance: boolean = false;
-  const comingSoon: boolean = false;
+  const comingSoon: boolean = true;
 
   return (
     <>
